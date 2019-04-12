@@ -6,9 +6,10 @@
 //  Copyright © 2019 XoXo. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import SwifterSwift
+
+import RxCocoa
 import RxSwift
 
 class CatalogCollectionViewCell: UICollectionViewCell {
@@ -18,10 +19,13 @@ class CatalogCollectionViewCell: UICollectionViewCell {
     /// Called on a more button tap
     public var likeTapped: (() -> Void)?
 
-    public func configure(with entity: CatalogEntity, api: RemoteData) {
-        self.likeLabel.text = "\(entity.likes) likes"
+    public var disposeBag = DisposeBag()
+
+    public func configure(with item: FeedEntity, api: FeedProvider) {
+        self.likeButton.setTitle(item.liked ? Const.likeSet : Const.likeNotSet, for: .normal)
+        self.likeLabel.text = "\(item.likeCount) likes"
         self.itemIcon.image = nil
-        api.getImageObservable(url: entity.url)
+        api.getImageObservable(url: item.image)
             .observeOnUI()
             .subscribeOn(SerialDispatchQueueScheduler(qos: .background))
             .subscribe(
@@ -35,8 +39,6 @@ class CatalogCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     override func awakeFromNib() {
-        super.awakeFromNib()
-
         fatalError("Interface Builder is not supported!")
     }
 
@@ -45,6 +47,8 @@ class CatalogCollectionViewCell: UICollectionViewCell {
 
         self.likeLabel.text = nil
         self.itemIcon.image = nil
+
+        self.disposeBag = DisposeBag()
     }
 
     override init(frame: CGRect) {
@@ -87,6 +91,18 @@ class CatalogCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
 
+    internal let horSV: UIStackView = {
+        let stackView = UIStackView()
+
+        stackView.axis  = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 20.0
+
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+
     internal let itemIcon: UIImageView = {
         let imageView = UIImageView(image: nil)
 
@@ -94,6 +110,17 @@ class CatalogCollectionViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
 
         return imageView
+    }()
+
+    internal let likeButton: UIButton = {
+        let button = UIButton()
+
+        button.clipsToBounds = true
+        button.setTitle(Const.likeNotSet, for: .normal)
+
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        return button
     }()
 
     internal let likeLabel: PaddingLabel = {
@@ -123,7 +150,9 @@ class CatalogCollectionViewCell: UICollectionViewCell {
         self.contentView.addSubview(self.verSV)
 
         self.verSV.addArrangedSubview(self.itemIcon)
-        self.verSV.addArrangedSubview(self.likeLabel)
+        self.verSV.addArrangedSubview(self.horSV)
+        self.horSV.addArrangedSubview(self.likeButton)
+        self.horSV.addArrangedSubview(self.likeLabel)
 
         self.addLayout(to: self.contentView)
     }
@@ -153,7 +182,7 @@ class CatalogCollectionViewCell: UICollectionViewCell {
 
     fileprivate struct Const {
         static let padding: CGFloat = 10.0
+        static let likeSet: String = "💛"
+        static let likeNotSet: String = "🖤"
     }
-
-    fileprivate var disposeBag = DisposeBag()
 }

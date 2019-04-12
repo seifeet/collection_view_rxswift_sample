@@ -22,6 +22,8 @@
     # A generic abstraction of computation expressed through Observable<Element> interface.
     pod 'RxSwift', '~> 4.5.0'
     pod 'RxCocoa', '~> 4.5.0'
+    pod 'RxDataSources', '~> 3.0'
+    pod 'RxFeedback', '~> 1.0'
 
     # A library that generates fake data.
     pod 'Fakery'

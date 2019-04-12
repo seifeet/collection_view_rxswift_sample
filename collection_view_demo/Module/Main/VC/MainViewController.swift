@@ -10,17 +10,19 @@ import UIKit
 
 import RxCocoa
 import RxSwift
+import RxDataSources
+import RxFeedback
 
 class MainViewController: BaseViewController {
 
-    internal var catalogVM: CatalogViewModeling!
     internal var layout: CatalogViewControllerLayouting!
-    internal var api: RemoteData!
+    internal var api: FeedProvider!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.configureView()
+        self.setUpFeedbackLoop()
     }
 
     override func loadView() {
@@ -39,21 +41,8 @@ class MainViewController: BaseViewController {
 
     fileprivate func configureView() {
         self.title = "👥"
-        self.layout.catalogCV.delegate = self
 
         self.registerCells()
-
-        // not a great way of doing it
-        // should be inserting individual cells instead
-        self.catalogVM.catalogEntities
-            .bind(to: self.layout.catalogCV.rx
-                .items(cellIdentifier: CatalogCollectionViewCell.className, cellType: CatalogCollectionViewCell.self)) {
-                    [weak self] row, data, cell in
-                    guard let this = self else { return }
-                    cell.configure(with: data, api: this.api)
-            }.disposed(by: disposeBag)
-
-        self.catalogVM.load()
     }
 
     fileprivate func registerCells() {
@@ -61,33 +50,82 @@ class MainViewController: BaseViewController {
         self.layout.catalogCV.register(CatalogCollectionViewCell.self, forCellWithReuseIdentifier: CatalogCollectionViewCell.className)
     }
 
-}
+    private func setUpFeedbackLoop() {
+        let uiFeedback: FeedState.Feedback = bind(self) { me, state in
+            let subscriptions: [Disposable] = [
+                me.bindDataSource(state: state, to: me.layout.catalogCV)
+            ]
 
-// MARK: - UICollectionViewDelegate
-extension MainViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    }
+            let mutations: [Signal<FeedMutation>] = [
+                me.nextPageMutation(state: state, in: me.layout.catalogCV),
+                me.mutations.asSignal()
+            ]
 
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard scrollView.bounds.height > 0 else {
-            return
+
+            return Bindings(subscriptions: subscriptions, mutations: mutations)
         }
 
-        // convert y-position to downward pull progress (percentage)
-        let verticalMovement = scrollView.contentOffset.y / scrollView.bounds.height
-
-        guard verticalMovement > 0 else {
-            return
-        }
-
-        let downwardMovement = fmaxf(Float(abs(verticalMovement)), 0.0)
-        let downwardMovementPercent = fminf(downwardMovement, 1.0)
-
-        if downwardMovementPercent >= 1.0 {
-            let bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height;
-            if (bottomEdge + 200 >= scrollView.contentSize.height) {
-                self.catalogVM.loadNextPage()
+        let loadPageFeedback: FeedState.Feedback = react(
+            query: { $0.loadPageIndex },
+            effects: { [weak self] index -> Signal<FeedMutation> in
+                guard let this = self else { return Signal.empty() }
+                return this.api
+                    .fetchPage(atIndex: index)
+                    .map { .pageLoaded(page: $0) }
+                    .asSignal(onErrorJustReturn: .error)
             }
+        )
+
+        Driver.system(
+            initialState: FeedState(),
+            reduce: FeedState.reduce,
+            feedback: uiFeedback, loadPageFeedback
+            )
+            .drive(state)
+            .disposed(by: disposeBag)
+    }
+
+    private func bindDataSource(state: Driver<FeedState>, to collectionView: UICollectionView) -> Disposable {
+        let dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimatableSectionModel<String, FeedEntity>>(
+            configureCell: { [weak self] (_, collectionView, indexPath, item: FeedEntity) in
+                guard let this = self else { return UICollectionViewCell() }
+                
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CatalogCollectionViewCell.className, for: indexPath)
+
+                if let catalogCell = cell as? CatalogCollectionViewCell {
+                    catalogCell.configure(with: item, api: this.api)
+                    catalogCell.likeButton.rx.tap
+                        .map { .like(id: item.id) }
+                        .bind(to: this.mutations)
+                        .disposed(by: catalogCell.disposeBag)
+                }
+
+                return cell
+
+            },
+            configureSupplementaryView: { _, _, _, _ in UICollectionReusableView(frame: .zero) }
+        )
+
+        return state
+            .map { $0.items }
+            .map { [AnimatableSectionModel(model: "section", items: $0)] }
+            .drive(collectionView.rx.items(dataSource: dataSource))
+    }
+
+    private func nextPageMutation(state: Driver<FeedState>,
+                                  in collectionView: UICollectionView) -> Signal<FeedMutation> {
+        return state.flatMapLatest { state in
+            guard !state.shouldLoadNext else {
+                return Signal.empty()
+            }
+
+            return collectionView.rx.willDisplayCell
+                .asSignal()
+                .filter { $0.at.item == state.items.count - 1 }
+                .map { _ in .loadNextPage }
         }
     }
+
+    private let state: BehaviorRelay<FeedState?> = BehaviorRelay(value: nil)
+    private let mutations: PublishRelay<FeedMutation> = PublishRelay()
 }

@@ -15,31 +15,37 @@ import RxCocoa
 
 import Fakery
 
-internal class RemoteData {
+internal class FeedProvider {
 
-    public func getAllPhotoDataObservable(page: Int) -> Observable<[CatalogEntity]> {
-        return Observable<[CatalogEntity]>.create { (observer) -> Disposable in
-            let url = String(format: Const.dataUrl, page)
+    public func fetchPage(atIndex index: Int) -> Single<FeedPage> {
+        return Observable<FeedPage>.create { (observer) -> Disposable in
+            let url = String(format: Const.dataUrl, index)
             let requestReference = AF.request(url, method: .get)
                 .validate()
-                .responseJSON { response in
+                .responseJSON { [weak self] response in
+                    guard let this = self else { return }
+
                     switch response.result {
                     case .success:
-                        var result = [CatalogEntity]()
-                        let faker = Faker()
-                        
+                        var items = [FeedEntity]()
+
                         if let data = response.data {
                             let json = try? JSONSerialization.jsonObject(with: data, options: [])
                             if let arr = json as? [[String: Any]] {
                                 for dict in arr {
-                                    if let url = dict["url"] as? String {
-                                        let likes = faker.number.randomInt(min: 3, max: 100)
-                                        let entity = CatalogEntity(url: url, likes: likes)
-                                        result.append(entity)
+                                    guard let urlString = dict["url"] as? String else {
+                                        continue
                                     }
+                                    guard let url = URL(string: urlString) else {
+                                        continue
+                                    }
+                                    let likeCount = this.faker.number.randomInt(min: 3, max: 100)
+                                    let item = FeedEntity(id: this.faker.number.increasingUniqueId(), image: url, likeCount: likeCount, liked: false)
+                                    items.append(item)
                                 }
                             }
                         }
+                        let result = FeedPage(count: items.count, results: items, nextPageIndex: index+1, previousPageIndex: index-1)
                         observer.onNext(result)
                         observer.onCompleted()
                     case .failure(let error):
@@ -49,10 +55,10 @@ internal class RemoteData {
             return Disposables.create(with: {
                 requestReference.cancel()
             })
-        }
+        }.asSingle()
     }
 
-    public func getImageObservable(url: String) -> Observable<UIImage?> {
+    public func getImageObservable(url: URL) -> Observable<UIImage?> {
         return Observable<UIImage?>.create { (observer) -> Disposable in
             let requestReference = AF.request(url, method: .get)
                 .validate()
@@ -77,4 +83,6 @@ internal class RemoteData {
     fileprivate struct Const {
         static let dataUrl = "https://jsonplaceholder.typicode.com/photos?_page=%d"
     }
+
+    private let faker: Faker = Faker(locale: "en-US")
 }

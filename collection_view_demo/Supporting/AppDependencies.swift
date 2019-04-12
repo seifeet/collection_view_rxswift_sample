@@ -14,21 +14,14 @@ class AppDependencies {
     let container = Container { container in
 
         // models
-        // Catalog ViewModeling
-        container.register(CatalogViewModeling.self) { res in
-            let viewModel = CatalogViewModel()
-            viewModel.api = res.resolve(RemoteData.self)!
-            return viewModel
-            }.inObjectScope(.transient)
 
         // view controllers
         // Main VC
         container.register(MainViewController.self) { res in
 
             let viewController = MainViewController()
-            viewController.catalogVM = res.resolve(CatalogViewModeling.self)!
             viewController.layout = res.resolve(CatalogViewControllerLayouting.self)!
-            viewController.api = res.resolve(RemoteData.self)!
+            viewController.api = res.resolve(FeedProvider.self)!
             return viewController
         }
 
@@ -39,8 +32,8 @@ class AppDependencies {
         }
 
         // API
-        container.register(RemoteData.self) { _ in
-            return RemoteData()
+        container.register(FeedProvider.self) { _ in
+            return FeedProvider()
             }.inObjectScope(.container)
     }
 }

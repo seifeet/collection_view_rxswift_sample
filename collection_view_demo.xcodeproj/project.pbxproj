@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		592D6116225D1E3600E04D18 /* RemoteData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592D6115225D1E3600E04D18 /* RemoteData.swift */; };
+		592D6116225D1E3600E04D18 /* FeedProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592D6115225D1E3600E04D18 /* FeedProvider.swift */; };
+		592D611C225FF61A00E04D18 /* FeedPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592D6118225FF61A00E04D18 /* FeedPage.swift */; };
+		592D611D225FF61A00E04D18 /* FeedEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592D6119225FF61A00E04D18 /* FeedEntity.swift */; };
+		592D611E225FF61A00E04D18 /* FeedState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592D611A225FF61A00E04D18 /* FeedState.swift */; };
+		592D611F225FF61A00E04D18 /* FeedMutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592D611B225FF61A00E04D18 /* FeedMutation.swift */; };
 		59A3964F225BB429007F6704 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A3964E225BB429007F6704 /* AppDelegate.swift */; };
 		59A39651225BB429007F6704 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A39650225BB429007F6704 /* MainViewController.swift */; };
 		59A39654225BB429007F6704 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59A39652225BB429007F6704 /* Main.storyboard */; };
@@ -16,7 +20,6 @@
 		59A3965C225BB42C007F6704 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59A3965A225BB42C007F6704 /* LaunchScreen.storyboard */; };
 		59A39667225BB42C007F6704 /* collection_view_demoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A39666225BB42C007F6704 /* collection_view_demoUITests.swift */; };
 		59A39673225BC17A007F6704 /* AppLogging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A39672225BC179007F6704 /* AppLogging.swift */; };
-		59A3967C225BCCE1007F6704 /* CatalogEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A3967B225BCCE1007F6704 /* CatalogEntity.swift */; };
 		59A39682225BCDC0007F6704 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A39681225BCDC0007F6704 /* BaseViewController.swift */; };
 		59A39686225BCF22007F6704 /* CatalogCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A39685225BCF22007F6704 /* CatalogCollectionViewCell.swift */; };
 		59A3968F225BD081007F6704 /* NSObject+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A39689225BD080007F6704 /* NSObject+Additions.swift */; };
@@ -24,8 +27,6 @@
 		59A39691225BD081007F6704 /* ObservableType+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A3968D225BD080007F6704 /* ObservableType+Additions.swift */; };
 		59A39692225BD081007F6704 /* Observable+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A3968E225BD080007F6704 /* Observable+Additions.swift */; };
 		59A39695225BDB6C007F6704 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A39694225BDB6C007F6704 /* PaddingLabel.swift */; };
-		59A39699225BE3D6007F6704 /* CatalogViewModeling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A39697225BE3D6007F6704 /* CatalogViewModeling.swift */; };
-		59A3969A225BE3D6007F6704 /* CatalogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A39698225BE3D6007F6704 /* CatalogViewModel.swift */; };
 		59A3969C225BE62F007F6704 /* AppDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A3969B225BE62F007F6704 /* AppDependencies.swift */; };
 		59A396A1225BE790007F6704 /* CatalogViewControllerLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A3969E225BE790007F6704 /* CatalogViewControllerLayout.swift */; };
 		59A396A2225BE790007F6704 /* CatalogViewControllerLayouting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A3969F225BE790007F6704 /* CatalogViewControllerLayouting.swift */; };
@@ -46,7 +47,11 @@
 /* Begin PBXFileReference section */
 		07BF9B94E3B66CE01B326A81 /* Pods-collection_view_demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-collection_view_demo.release.xcconfig"; path = "Target Support Files/Pods-collection_view_demo/Pods-collection_view_demo.release.xcconfig"; sourceTree = "<group>"; };
 		159F8B0B76E7CF0DEC349C5E /* Pods_collection_view_demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_collection_view_demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		592D6115225D1E3600E04D18 /* RemoteData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteData.swift; sourceTree = "<group>"; };
+		592D6115225D1E3600E04D18 /* FeedProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedProvider.swift; sourceTree = "<group>"; };
+		592D6118225FF61A00E04D18 /* FeedPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedPage.swift; sourceTree = "<group>"; };
+		592D6119225FF61A00E04D18 /* FeedEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedEntity.swift; sourceTree = "<group>"; };
+		592D611A225FF61A00E04D18 /* FeedState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedState.swift; sourceTree = "<group>"; };
+		592D611B225FF61A00E04D18 /* FeedMutation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedMutation.swift; sourceTree = "<group>"; };
 		59A3964B225BB429007F6704 /* collection_view_demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = collection_view_demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59A3964E225BB429007F6704 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		59A39650225BB429007F6704 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -59,7 +64,6 @@
 		59A39666225BB42C007F6704 /* collection_view_demoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = collection_view_demoUITests.swift; sourceTree = "<group>"; };
 		59A39668225BB42C007F6704 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59A39672225BC179007F6704 /* AppLogging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppLogging.swift; sourceTree = "<group>"; };
-		59A3967B225BCCE1007F6704 /* CatalogEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogEntity.swift; sourceTree = "<group>"; };
 		59A39681225BCDC0007F6704 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		59A39685225BCF22007F6704 /* CatalogCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogCollectionViewCell.swift; sourceTree = "<group>"; };
 		59A39689225BD080007F6704 /* NSObject+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+Additions.swift"; sourceTree = "<group>"; };
@@ -67,8 +71,6 @@
 		59A3968D225BD080007F6704 /* ObservableType+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObservableType+Additions.swift"; sourceTree = "<group>"; };
 		59A3968E225BD080007F6704 /* Observable+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Additions.swift"; sourceTree = "<group>"; };
 		59A39694225BDB6C007F6704 /* PaddingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
-		59A39697225BE3D6007F6704 /* CatalogViewModeling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogViewModeling.swift; sourceTree = "<group>"; };
-		59A39698225BE3D6007F6704 /* CatalogViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogViewModel.swift; sourceTree = "<group>"; };
 		59A3969B225BE62F007F6704 /* AppDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDependencies.swift; sourceTree = "<group>"; };
 		59A3969E225BE790007F6704 /* CatalogViewControllerLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogViewControllerLayout.swift; sourceTree = "<group>"; };
 		59A3969F225BE790007F6704 /* CatalogViewControllerLayouting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogViewControllerLayouting.swift; sourceTree = "<group>"; };
@@ -106,7 +108,7 @@
 		592D6114225D1D0A00E04D18 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				592D6115225D1E3600E04D18 /* RemoteData.swift */,
+				592D6115225D1E3600E04D18 /* FeedProvider.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -170,7 +172,7 @@
 		59A3967A225BCCB2007F6704 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				59A3967B225BCCE1007F6704 /* CatalogEntity.swift */,
+				592D6119225FF61A00E04D18 /* FeedEntity.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -274,8 +276,9 @@
 		59A39696225BE3D6007F6704 /* VM */ = {
 			isa = PBXGroup;
 			children = (
-				59A39697225BE3D6007F6704 /* CatalogViewModeling.swift */,
-				59A39698225BE3D6007F6704 /* CatalogViewModel.swift */,
+				592D6118225FF61A00E04D18 /* FeedPage.swift */,
+				592D611B225FF61A00E04D18 /* FeedMutation.swift */,
+				592D611A225FF61A00E04D18 /* FeedState.swift */,
 			);
 			path = VM;
 			sourceTree = "<group>";
@@ -408,9 +411,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-collection_view_demo/Pods-collection_view_demo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${BUILT_PRODUCTS_DIR}/Fakery/Fakery.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjcExceptionBridging/ObjcExceptionBridging.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
+				"${BUILT_PRODUCTS_DIR}/RxFeedback/RxFeedback.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwifterSwift/SwifterSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Swinject/Swinject.framework",
@@ -421,9 +427,12 @@
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Fakery.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjcExceptionBridging.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxFeedback.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwifterSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Swinject.framework",
@@ -465,23 +474,24 @@
 			files = (
 				59A39695225BDB6C007F6704 /* PaddingLabel.swift in Sources */,
 				59A39651225BB429007F6704 /* MainViewController.swift in Sources */,
+				592D611C225FF61A00E04D18 /* FeedPage.swift in Sources */,
 				59A396A5225BE844007F6704 /* CatalogCollectionViewFlowLayout.swift in Sources */,
 				59A396A1225BE790007F6704 /* CatalogViewControllerLayout.swift in Sources */,
+				592D611D225FF61A00E04D18 /* FeedEntity.swift in Sources */,
 				59A3964F225BB429007F6704 /* AppDelegate.swift in Sources */,
 				59A3969C225BE62F007F6704 /* AppDependencies.swift in Sources */,
 				59A39657225BB429007F6704 /* collection_view_demo.xcdatamodeld in Sources */,
-				59A3967C225BCCE1007F6704 /* CatalogEntity.swift in Sources */,
 				59A39691225BD081007F6704 /* ObservableType+Additions.swift in Sources */,
 				59A396A2225BE790007F6704 /* CatalogViewControllerLayouting.swift in Sources */,
-				59A3969A225BE3D6007F6704 /* CatalogViewModel.swift in Sources */,
 				59A39673225BC17A007F6704 /* AppLogging.swift in Sources */,
-				592D6116225D1E3600E04D18 /* RemoteData.swift in Sources */,
+				592D6116225D1E3600E04D18 /* FeedProvider.swift in Sources */,
+				592D611E225FF61A00E04D18 /* FeedState.swift in Sources */,
 				59A39692225BD081007F6704 /* Observable+Additions.swift in Sources */,
 				59A39690225BD081007F6704 /* String+Additions.swift in Sources */,
 				59A3968F225BD081007F6704 /* NSObject+Additions.swift in Sources */,
 				59A39686225BCF22007F6704 /* CatalogCollectionViewCell.swift in Sources */,
+				592D611F225FF61A00E04D18 /* FeedMutation.swift in Sources */,
 				59A39682225BCDC0007F6704 /* BaseViewController.swift in Sources */,
-				59A39699225BE3D6007F6704 /* CatalogViewModeling.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
